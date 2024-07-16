@@ -1,0 +1,13 @@
+node_modules
+**/dist/*
+**/tmp/*
+**/vendor/*
+**/coverage/*
+**/generated/*
+**/*.min.js
+**/*.d.ts
+**/senses.ui.js
+**/config/*.conf.js
+libs/mocks/**/__files/**/*.html
+tools/workspace/**/files/**/*
+tools/digital-connect/**/files/**/*

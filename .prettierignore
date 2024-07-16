@@ -1,0 +1,75 @@
+# compiled output
+dist
+tmp
+out-tsc
+output
+generated
+**/*.d.ts
+
+# dependencies
+node_modules
+
+# IDEs and editors
+.idea
+.project
+.classpath
+.c9/
+*.launch
+*.orig
+.settings/
+*.sublime-workspace
+.vscode
+.vs
+.history/*
+
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# SonarQube
+.sonar/
+.scannerwork/
+.sonarlint/
+sonar-project.properties
+
+coverage
+**/test-coverage/**/*
+!libs/mocks/**/coverage/
+
+# docs
+**/*.md
+
+# misc
+.angular
+.nexus
+.nvmrc
+.nx
+.yarn
+connect.lock
+package-lock.json
+yarn.lock
+libpeerconnection.log
+manifest.json
+npm-debug.log
+lerna-debug.log
+yarn-error.log
+testem.log
+typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# reports
+report.json
+report_*.csv
+report_*.json
+test-report.xml
+
+# tools templates and compiled files
+tools/workspace/**/files/**/*
+tools/cli/**/*.js
