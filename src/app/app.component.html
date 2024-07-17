@@ -1,4 +1,23 @@
-<main class="main">
-  <div class="content">hey app</div>
+<main>
+  <div class="content">
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a
+        mat-tab-link
+        routerLink=""
+        (click)="activeLink = 'studies'"
+        [active]="activeLink === 'studies'"
+        >Studies</a
+      >
+      <a
+        mat-tab-link
+        routerLink="favourites"
+        (click)="activeLink = 'favourites'"
+        [active]="activeLink === 'favourites'"
+        >Favourites</a
+      >
+    </nav>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet />
+    </mat-tab-nav-panel>
+  </div>
 </main>
-<router-outlet />

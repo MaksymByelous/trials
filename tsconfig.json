@@ -14,11 +14,12 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "es2015",
     "module": "ES2022",
-    "lib": ["ES2022", "dom"],
+    "lib": ["es5", "es6", "ES2022", "dom", "dom.iterable"],
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "types": ["jasmine", "node", "mocha"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

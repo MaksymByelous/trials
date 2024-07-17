@@ -1,0 +1,10 @@
+<h3>Latest studies</h3>
+@if (isLoading) {
+  <p>...searching</p>
+} @else {
+  @for (study of studies; track study.id) {
+    <trials-study-card [study]="study" />
+  } @empty {
+    <p>No studies found</p>
+  }
+}
