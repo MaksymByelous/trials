@@ -1,3 +1,58 @@
-<button (click)="favouritesService.toggleFavourite(study().id)">
-  {{ study().id }}
-</button>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>ID: {{ study().id }} </mat-card-title>
+    @if (study().isNew) {
+      <span class="new-label">New</span>
+    }
+    <mat-card-subtitle>{{
+      Status[study().study.protocolSection.statusModule.overallStatus]
+    }}</mat-card-subtitle>
+    <mat-card-subtitle>{{
+      study().study.protocolSection.identificationModule.briefTitle
+    }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-content">
+      @if (study().study.protocolSection.conditionsModule.conditions.length) {
+        <div class="content-item">
+          Conditions:
+          <mat-divider></mat-divider>
+          <mat-chip-set aria-label="Fish selection">
+            @for (
+              condition of study().study.protocolSection.conditionsModule
+                .conditions;
+              track condition
+            ) {
+              <mat-chip>{{ condition }}</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      }
+      @if (
+        study().study.protocolSection.contactsLocationsModule?.locations?.length
+      ) {
+        <div class="content-item">
+          Locations:
+          <mat-divider></mat-divider>
+          <mat-chip-set aria-label="Fish selection">
+            @for (
+              location of study().study.protocolSection.contactsLocationsModule
+                .locations;
+              track location
+            ) {
+              <mat-chip>{{ location.country }}, {{ location.city }}</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      }
+    </div>
+    <div class="card-actions">
+      <button
+        mat-raised-button
+        (click)="favouritesService.toggleFavourite(study().id)"
+      >
+        {{ isFavourite() ? 'Unfavourite' : 'Favourite' }}
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

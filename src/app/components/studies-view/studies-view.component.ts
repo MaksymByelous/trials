@@ -19,7 +19,7 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
   constructor(protected studyService: StudiesService) {}
 
   ngOnInit() {
-    this.studyService.searchStudies({ limit: '20' }).subscribe((trials) => {
+    this.studyService.searchStudies({ limit: '100' }).subscribe((trials) => {
       this.studies = trials;
       this.isLoading = false;
     });

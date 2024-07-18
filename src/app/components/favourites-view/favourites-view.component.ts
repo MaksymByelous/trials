@@ -27,6 +27,7 @@ export class FavouritesViewComponent implements OnInit {
         switchMap((favs: HitId[]) => {
           if (favs.length) {
             return this.studyService.searchStudies({
+              // id: 'NCT06503926',
               id: favs.toString(),
             });
           } else {

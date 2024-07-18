@@ -1,0 +1,28 @@
+mat-card {
+  margin-bottom: 16px;
+}
+
+.new-label {
+  position: absolute;
+  right: 20px;
+  background-color: #95dffa;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.card-content {
+  padding-top: 8px;
+
+  .content-item {
+    margin-bottom: 8px;
+  }
+
+  .mat-divider {
+    border-top-color: #c1e5f4;
+  }
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+}

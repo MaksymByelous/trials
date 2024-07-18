@@ -298,6 +298,22 @@ export interface AryOutcome {
   measure: string;
 }
 
+export type TypeStatus =
+  | 'ACTIVE_NOT_RECRUITING'
+  | 'COMPLETED'
+  | 'ENROLLING_BY_INVITATION'
+  | 'NOT_YET_RECRUITING'
+  | 'RECRUITING'
+  | 'SUSPENDED'
+  | 'TERMINATED'
+  | 'WITHDRAWN'
+  | 'AVAILABLE'
+  | 'NO_LONGER_AVAILABLE'
+  | 'TEMPORARILY_NOT_AVAILABLE'
+  | 'APPROVED_FOR_MARKETING'
+  | 'WITHHELD'
+  | 'UNKNOWN';
+
 export interface SponsorCollaboratorsModule {
   leadSponsor: LeadSponsor;
   collaborators?: Collaborator[];
@@ -326,7 +342,7 @@ export enum AgancyClass {
 }
 
 export interface StatusModule {
-  overallStatus: Status;
+  overallStatus: TypeStatus;
   startDateStruct: DateStruct;
   primaryCompletionDateStruct: DateStruct;
   completionDateStruct: DateStruct;
