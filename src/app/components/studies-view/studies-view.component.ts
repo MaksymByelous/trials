@@ -1,4 +1,4 @@
-import { Hit } from '../../interfaces/study.interface';
+import { Hit } from '../../models/study';
 import { StudiesService } from '../../services/studies.service';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { AsyncPipe } from '@angular/common';

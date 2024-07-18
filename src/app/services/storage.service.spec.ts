@@ -1,4 +1,4 @@
-import { HitIds } from '../interfaces/study.interface';
+import { HitIds } from '../models/study';
 import { StorageService } from './storage.service';
 import { TestBed } from '@angular/core/testing';
 

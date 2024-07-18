@@ -1,4 +1,4 @@
-import { Hit, SearchResult } from '../interfaces/study.interface';
+import { Hit, SearchResult } from '../models/study';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';

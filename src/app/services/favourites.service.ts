@@ -1,4 +1,4 @@
-import { HitId, HitIds } from '../interfaces/study.interface';
+import { HitId, HitIds } from '../models/study';
 import { StorageService } from './storage.service';
 import { effect, Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';

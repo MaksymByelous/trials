@@ -1,4 +1,4 @@
-import { Hit, HitId } from '../../interfaces/study.interface';
+import { Hit, HitId } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
 import { StudiesService } from '../../services/studies.service';
 import { StudyCardComponent } from '../study-card/study-card.component';

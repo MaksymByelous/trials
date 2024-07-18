@@ -32,7 +32,7 @@ export interface Aggs {
 
 export interface Hit {
   id: string;
-  study: StudyInterface;
+  study: Study;
   columns: Columns;
   isNew: boolean;
 }
@@ -57,18 +57,25 @@ export interface Interventions {
 }
 
 export interface InterventionItem {
-  type: ItemType;
+  type: InterventionType;
   name: string;
 }
 
-export type ItemType =
-  | 'OTHER'
-  | 'DRUG'
-  | 'DEVICE'
-  | 'DIETARY_SUPPLEMENT'
-  | 'PROCEDURE';
+export enum InterventionType {
+  'BEHAVIORAL' = 'Behavioral',
+  'BIOLOGICAL' = 'Biological',
+  'COMBINATION_PRODUCT' = 'Combination Product',
+  'DEVICE' = 'Device',
+  'DIAGNOSTIC_TEST' = 'Diagnostic Test',
+  'DIETARY_SUPPLEMENT' = 'Dietary Supplement',
+  'DRUG' = 'Drug',
+  'GENETIC' = 'Genetic',
+  'PROCEDURE' = 'Procedure',
+  'RADIATION' = 'Radiation',
+  'OTHER' = 'Other',
+}
 
-export interface StudyInterface {
+export interface Study {
   protocolSection: ProtocolSection;
   hasResults: boolean;
 }
@@ -105,7 +112,11 @@ export interface Contact {
   email?: string;
 }
 
-export type Role = 'CONTACT' | 'PRINCIPAL_INVESTIGATOR';
+export enum Role {
+  'SPONSOR' = 'Sponsor',
+  'PRINCIPAL_INVESTIGATOR' = 'Principal Investigator',
+  'SPONSOR_INVESTIGATOR' = 'Sponsor-Investigator',
+}
 
 export interface Location {
   facility: string;
@@ -123,21 +134,22 @@ export interface GeoPoint {
   lon: number;
 }
 
-export type Status =
-  | 'RECRUITING'
-  | 'COMPLETED'
-  | 'NOT_YET_RECRUITING'
-  | 'WITHDRAWN'
-  | 'ACTIVE_NOT_RECRUITING'
-  | 'TERMINATED'
-  | 'SUSPENDED'
-  | 'APPROVED_FOR_MARKETING'
-  | 'NO_LONGER_AVAILABLE'
-  | 'AVAILABLE'
-  | 'ENROLLING_BY_INVITATION'
-  | 'TEMPORARILY_NOT_AVAILABLE'
-  | 'UNKNOWN'
-  | 'WITHHELD';
+export enum Status {
+  'ACTIVE_NOT_RECRUITING' = 'Active, not recruiting',
+  'COMPLETED' = 'Completed',
+  'ENROLLING_BY_INVITATION' = 'Enrolling by invitation',
+  'NOT_YET_RECRUITING' = 'Not yet recruiting',
+  'RECRUITING' = 'Recruiting',
+  'SUSPENDED' = 'Suspended',
+  'TERMINATED' = 'Terminated',
+  'WITHDRAWN' = 'Withdrawn',
+  'AVAILABLE' = 'Available',
+  'NO_LONGER_AVAILABLE' = 'No longer available',
+  'TEMPORARILY_NOT_AVAILABLE' = 'Temporarily not available',
+  'APPROVED_FOR_MARKETING' = 'Approved for marketing',
+  'WITHHELD' = 'Withheld',
+  'UNKNOWN' = 'Unknown',
+}
 
 export interface DesignModule {
   studyType: StudyType;
@@ -145,13 +157,15 @@ export interface DesignModule {
   enrollmentInfo: EnrollmentInfo;
   phases?: Phase[];
 }
-export type Phase =
-  | 'PHASE_1'
-  | 'PHASE_2'
-  | 'PHASE_3'
-  | 'PHASE_4'
-  | 'NA'
-  | 'EARLY_PHASE1';
+
+export enum Phase {
+  'NA' = 'Not Applicable',
+  'EARLY_PHASE1' = 'Early Phase 1',
+  'PHASE1' = 'Phase 1',
+  'PHASE2' = 'Phase 2',
+  'PHASE3' = 'Phase 3',
+  'PHASE4' = 'Phase 4',
+}
 
 export interface DesignInfo {
   observationalModel?: ObservationalModel;
@@ -162,62 +176,87 @@ export interface DesignInfo {
   maskingInfo?: MaskingInfo;
 }
 
-export type TimePerspective =
-  | 'PROSPECTIVE'
-  | 'RETROSPECTIVE'
-  | 'OTHER'
-  | 'CROSS_SECTIONAL';
-
-export type Allocation = 'RANDOMIZED' | 'NON_RANDOMIZED' | 'NA';
-
-export type InterventionModel =
-  | 'PARALLEL'
-  | 'CROSSOVER'
-  | 'FACTORIAL'
-  | 'SEQUENTIAL'
-  | 'SINGLE_GROUP';
-
-export type ObservationalModel =
-  | 'COHORT'
-  | 'CASE_CONTROL'
-  | 'CROSS_SECTIONAL'
-  | 'OTHER'
-  | 'ECOLOGIC_OR_COMMUNITY'
-  | 'FAMILY_BASED'
-  | 'DEFINED_POPULATION'
-  | 'NATURAL_HISTORY'
-  | 'CASE_ONLY';
-
-export type PrimaryPurpose =
-  | 'TREATMENT'
-  | 'PREVENTION'
-  | 'DIAGNOSTIC'
-  | 'SUPPORTIVE_CARE'
-  | 'SCREENING'
-  | 'HEALTH_SERVICES_RESEARCH'
-  | 'BASIC_SCIENCE'
-  | 'DEVICE_FEASIBILITY'
-  | 'OTHER'
-  | 'ECT';
-
-export interface MaskingInfo {
-  masking: Masking;
-  whoMasked?: whoMasked[];
+export enum TimePerspective {
+  'RETROSPECTIVE' = 'Retrospective',
+  'PROSPECTIVE' = 'Prospective',
+  'CROSS_SECTIONAL' = 'Cross-Sectional',
+  'OTHER' = 'Other',
 }
 
-export type Masking = 'NONE' | 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'QUADRUPLE';
+export enum Allocation {
+  'RANDOMIZED' = 'Randomized',
+  'NON_RANDOMIZED' = 'Non-Randomized',
+  'NA' = 'N/A',
+}
 
-export type whoMasked =
-  | 'PARTICIPANT'
-  | 'CARE_PROVIDER'
-  | 'INVESTIGATOR'
-  | 'OUTCOMES_ASSESSOR';
+export enum InterventionModel {
+  'SINGLE_GROUP' = 'Single Group Assignment',
+  'PARALLEL' = 'Parallel Assignment',
+  'CROSSOVER' = 'Crossover Assignment',
+  'FACTORIAL' = 'Factorial Assignment',
+  'SEQUENTIAL' = 'Sequential Assignment',
+}
+
+export enum ObservationalModel {
+  'COHORT' = 'Cohort',
+  'CASE_CONTROL' = 'Case-Control',
+  'CASE_ONLY' = 'Case-Only',
+  'CASE_CROSSOVER' = 'Case-Crossover',
+  'ECOLOGIC_OR_COMMUNITY' = 'Ecologic or Community',
+  'FAMILY_BASED' = 'Family-Based',
+  'DEFINED_POPULATION' = 'Defined Population',
+  'NATURAL_HISTORY' = 'Natural History',
+  'OTHER' = 'Other',
+}
+
+export enum PrimaryPurpose {
+  'TREATMENT' = 'Treatment',
+  'PREVENTION' = 'Prevention',
+  'DIAGNOSTIC' = 'Diagnostic',
+  'ECT' = 'Educational/Counseling/Training',
+  'SUPPORTIVE_CARE' = 'Supportive Care',
+  'SCREENING' = 'Screening',
+  'HEALTH_SERVICES_RESEARCH' = 'Health Services Research',
+  'BASIC_SCIENCE' = 'Basic Science',
+  'DEVICE_FEASIBILITY' = 'Device Feasibility',
+  'OTHER' = 'Other',
+}
+
+export interface MaskingInfo {
+  masking: DesignMasking;
+  whoMasked?: WhoMasked[];
+}
+
+export enum DesignMasking {
+  'NONE' = 'None (Open Label)',
+  'SINGLE' = 'Single',
+  'DOUBLE' = 'Double',
+  'TRIPLE' = 'Triple',
+  'QUADRUPLE' = 'Quadruple',
+}
+
+export enum WhoMasked {
+  'PARTICIPANT' = 'Participant',
+  'CARE_PROVIDER' = 'Care Provider',
+  'INVESTIGATOR' = 'Investigator',
+  'OUTCOMES_ASSESSOR' = 'Outcomes Assessor',
+}
 
 export interface EnrollmentInfo {
   count: number;
+  type: EnrollmentType;
 }
 
-export type StudyType = 'OBSERVATIONAL' | 'INTERVENTIONAL' | 'EXPANDED_ACCESS';
+export enum EnrollmentType {
+  'ACTUAL' = 'Actual',
+  'ESTIMATED' = 'Estimated',
+}
+
+export enum StudyType {
+  'EXPANDED_ACCESS' = 'Expanded Access',
+  'INTERVENTIONAL' = 'Interventional',
+  'OBSERVATIONAL' = 'Observational',
+}
 
 export interface EligibilityModule {
   sex: Sex;
@@ -226,9 +265,17 @@ export interface EligibilityModule {
   stdAges: StdAge[];
 }
 
-export type Sex = 'ALL' | 'MALE' | 'FEMALE';
+export enum Sex {
+  'FEMALE' = 'Female',
+  'MALE' = 'Male',
+  'ALL' = 'All',
+}
 
-export type StdAge = 'CHILD' | 'ADULT' | 'OLDER_ADULT';
+export enum StdAge {
+  'CHILD' = 'Child',
+  'ADULT' = 'Adult',
+  'OLDER_ADULT' = 'Older Adult',
+}
 
 export interface IdentificationModule {
   nctId: string;
@@ -257,14 +304,25 @@ export interface SponsorCollaboratorsModule {
 }
 
 export interface Collaborator {
-  class: Class;
+  class: AgancyClass;
+  name: string;
 }
-
-export type Class = 'OTHER' | 'INDUSTRY';
 
 export interface LeadSponsor {
   name: string;
-  class: Class;
+  class: AgancyClass;
+}
+
+export enum AgancyClass {
+  'NIH' = 'NIH',
+  'FED' = 'FED',
+  'OTHER_GOV' = 'OTHER_GOV',
+  'INDIV' = 'INDIV',
+  'INDUSTRY' = 'INDUSTRY',
+  'NETWORK' = 'NETWORK',
+  'AMBIG' = 'AMBIG',
+  'OTHER' = 'OTHER',
+  'UNKNOWN' = 'UNKNOWN',
 }
 
 export interface StatusModule {

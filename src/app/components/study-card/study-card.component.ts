@@ -1,4 +1,4 @@
-import { Hit } from '../../interfaces/study.interface';
+import { Hit } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
 import { Component, inject, input } from '@angular/core';
 
