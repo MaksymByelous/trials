@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-headless": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
     "prepare": "husky",
     "format": "prettier --write \"**/*.{js,ts,scss,css,json,html}\"",
     "lint": "eslint 'src/**/*.{ts,js}'",
