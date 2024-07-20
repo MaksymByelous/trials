@@ -13,14 +13,14 @@
   </mat-card-header>
   <mat-card-content>
     <div class="card-content">
-      @if (study().study.protocolSection.conditionsModule.conditions.length) {
+      @if (study().study.protocolSection.conditionsModule?.conditions?.length) {
         <div class="content-item">
           Conditions:
           <mat-divider></mat-divider>
           <mat-chip-set aria-label="Fish selection">
             @for (
               condition of study().study.protocolSection.conditionsModule
-                .conditions;
+                ?.conditions;
               track condition
             ) {
               <mat-chip>{{ condition }}</mat-chip>
@@ -54,5 +54,10 @@
         {{ isFavourite() ? 'Unfavourite' : 'Favourite' }}
       </button>
     </div>
+    <p>
+      {{
+        study().study.protocolSection.statusModule.lastUpdatePostDateStruct.date
+      }}
+    </p>
   </mat-card-content>
 </mat-card>

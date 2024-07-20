@@ -84,7 +84,7 @@ export interface ProtocolSection {
   identificationModule: IdentificationModule;
   statusModule: StatusModule;
   sponsorCollaboratorsModule: SponsorCollaboratorsModule;
-  conditionsModule: ConditionsModule;
+  conditionsModule?: ConditionsModule;
   designModule: DesignModule;
   outcomesModule: OutcomesModule;
   eligibilityModule: EligibilityModule;

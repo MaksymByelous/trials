@@ -14,7 +14,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "module": "ES2022",
     "lib": ["es5", "es6", "ES2022", "dom", "dom.iterable"],
     "noUnusedLocals": true,
@@ -26,6 +26,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "strictNullInputTypes": false
+    "strictNullInputTypes": false,
+    "useDefineForClassFields": false
   }
 }

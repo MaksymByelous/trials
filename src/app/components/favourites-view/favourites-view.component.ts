@@ -2,7 +2,7 @@ import { Hit, HitId } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
 import { StudiesService } from '../../services/studies.service';
 import { StudyCardComponent } from '../study-card/study-card.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { of, switchMap } from 'rxjs';
 
 @Component({
@@ -13,21 +13,18 @@ import { of, switchMap } from 'rxjs';
   styleUrl: './favourites-view.component.scss',
 })
 export class FavouritesViewComponent implements OnInit {
+  private studyService = inject(StudiesService);
+  protected favouritesService = inject(FavouritesService);
+
   favouriteStudies: Hit[] = [];
   isLoading = true;
 
-  constructor(
-    protected studyService: StudiesService,
-    private favouritesService: FavouritesService
-  ) {}
-
   ngOnInit() {
-    this.favouritesService.favorites$
+    this.favouritesService.favourites$
       .pipe(
         switchMap((favs: HitId[]) => {
           if (favs.length) {
             return this.studyService.searchStudies({
-              // id: 'NCT06503926',
               id: favs.toString(),
             });
           } else {
@@ -35,8 +32,8 @@ export class FavouritesViewComponent implements OnInit {
           }
         })
       )
-      .subscribe((favoutires) => {
-        this.favouriteStudies = favoutires;
+      .subscribe((favourites) => {
+        this.favouriteStudies = favourites;
         this.isLoading = false;
       });
   }

@@ -19,4 +19,9 @@ describe('PageNotFoundComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have header Page not found', () => {
+    const header = fixture.nativeElement.querySelector('h1');
+    expect(header.textContent).toContain('Page Not Found');
+  });
 });

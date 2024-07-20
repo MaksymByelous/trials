@@ -1,6 +1,6 @@
 import { HitId, HitIds } from '../models/study';
 import { StorageService } from './storage.service';
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -8,16 +8,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class FavouritesService {
+  private storage = inject(StorageService<HitIds>);
+  private snackBar = inject(MatSnackBar);
   private favoritesStorageKey = 'favorites';
   private favoriteStudies = signal<HitIds>(
     this.storage.getItem(this.favoritesStorageKey)
   );
-  favorites$ = toObservable(this.favoriteStudies);
+  favourites$ = toObservable(this.favoriteStudies);
 
-  constructor(
-    private storage: StorageService<HitIds>,
-    private snackBar: MatSnackBar
-  ) {
+  constructor() {
     effect(() =>
       this.storage.setItem(this.favoritesStorageKey, this.favoriteStudies())
     );
