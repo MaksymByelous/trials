@@ -6,6 +6,7 @@ import { StudiesService } from '../../services/studies.service';
 import { FavouritesViewComponent } from './favourites-view.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { of } from 'rxjs';
 
 describe('FavouritesViewComponent', () => {
@@ -16,7 +17,11 @@ describe('FavouritesViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideExperimentalZonelessChangeDetection(),
+      ],
       imports: [FavouritesViewComponent],
     }).compileComponents();
 
@@ -55,7 +60,7 @@ describe('FavouritesViewComponent', () => {
     ] as Hit[];
 
     spyOn(studyService, 'searchStudies').and.returnValue(of(mockStudies));
-    favouritesService['favoriteStudies'].set(mockFavourites);
+    favouritesService['favouriteIds'].set(mockFavourites);
 
     component.ngOnInit();
     fixture.detectChanges();

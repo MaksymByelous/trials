@@ -1,10 +1,11 @@
-import { Hit, HitId } from '../../models/study';
+import { HitIds } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
-import { StudiesService } from '../../services/studies.service';
+import { StudiesStore } from '../../stores/studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
-import { Component, inject, OnInit } from '@angular/core';
-import { of, switchMap } from 'rxjs';
-
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { patchState } from '@ngrx/signals';
+import { Subscription } from 'rxjs';
+//
 @Component({
   selector: 'trials-favourites-view',
   standalone: true,
@@ -12,29 +13,30 @@ import { of, switchMap } from 'rxjs';
   templateUrl: './favourites-view.component.html',
   styleUrl: './favourites-view.component.scss',
 })
-export class FavouritesViewComponent implements OnInit {
-  private studyService = inject(StudiesService);
+export class FavouritesViewComponent implements OnInit, OnDestroy {
   protected favouritesService = inject(FavouritesService);
+  readonly studyStore = inject(StudiesStore);
 
-  favouriteStudies: Hit[] = [];
-  isLoading = true;
+  favIdsSub!: Subscription;
 
-  ngOnInit() {
-    this.favouritesService.favourites$
-      .pipe(
-        switchMap((favs: HitId[]) => {
-          if (favs.length) {
-            return this.studyService.searchStudies({
-              id: favs.toString(),
-            });
-          } else {
-            return of([]);
-          }
-        })
-      )
-      .subscribe((favourites) => {
-        this.favouriteStudies = favourites;
-        this.isLoading = false;
-      });
+  ngOnInit(): void {
+    this.favouritesService.resetDeletedFavourite();
+    this.favIdsSub = this.favouritesService.favourites$.subscribe(
+      (favs: HitIds) => {
+        if (this.favouritesService.deletedFavourite() === null) {
+          this.studyStore.loadFavouriteStudies(favs);
+        } else {
+          const newStudies = this.studyStore
+            .favouriteStudies()
+            .filter(
+              (study) => study.id !== this.favouritesService.deletedFavourite()
+            );
+          patchState(this.studyStore, { favouriteStudies: newStudies });
+        }
+      }
+    );
+  }
+  ngOnDestroy(): void {
+    this.favIdsSub.unsubscribe();
   }
 }

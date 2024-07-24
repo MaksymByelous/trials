@@ -1,7 +1,10 @@
 import { Hit, HitIds } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
 import { StudyCardComponent } from './study-card.component';
-import { signal } from '@angular/core';
+import {
+  provideExperimentalZonelessChangeDetection,
+  signal,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('StudyCardComponent', () => {
@@ -11,6 +14,7 @@ describe('StudyCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideExperimentalZonelessChangeDetection()],
       imports: [StudyCardComponent],
     }).compileComponents();
 
@@ -48,7 +52,7 @@ describe('StudyCardComponent', () => {
   it('should get favourites ids and mark study as favourite', () => {
     const mockFavourites = ['NCT06506786'] as HitIds;
 
-    favouritesService['favoriteStudies'].set(mockFavourites);
+    favouritesService['favouriteIds'].set(mockFavourites);
     component.ngOnInit();
     fixture.detectChanges();
 

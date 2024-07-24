@@ -30,13 +30,13 @@ import { MatDivider } from '@angular/material/divider';
   styleUrl: './study-card.component.scss',
 })
 export class StudyCardComponent implements OnInit {
-  protected favouritesService = inject(FavouritesService);
   protected readonly Status = Status;
+  protected favouritesService = inject(FavouritesService);
 
+  isFavourite = signal(false);
   study = input.required<Hit>();
-  isFavourite = signal<boolean>(false);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.favouritesService.favourites$.subscribe((favs) => {
       this.isFavourite.set(favs.indexOf(this.study().id) !== -1);
     });
