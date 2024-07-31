@@ -27,7 +27,6 @@ export class FavouritesService {
 
   toggleFavourite(id: HitId): void {
     const showIndex = this.favouriteIds().indexOf(id);
-    const newFavorites = [...this.favouriteIds()];
 
     if (showIndex === -1) {
       if (this.favouriteIds().length === 10) {
@@ -37,12 +36,16 @@ export class FavouritesService {
         return;
       }
       this.deletedItem.set(null);
-      newFavorites.push(id);
+      this.favouriteIds.update((favourites) => {
+        return [...favourites, id];
+      });
     } else {
       this.deletedItem.set(id);
-      newFavorites.splice(showIndex, 1);
+      this.favouriteIds.update((favourites) => {
+        favourites.splice(showIndex, 1);
+        return [...favourites];
+      });
     }
-    this.favouriteIds.set(newFavorites);
   }
 
   resetDeletedFavourite(): void {
