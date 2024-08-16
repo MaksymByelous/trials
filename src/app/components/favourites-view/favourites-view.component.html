@@ -1,9 +1,9 @@
 <h3>Favourite studies</h3>
 
-@if (isLoading) {
+@if (favsStudyStore.isLoading()) {
   <div>...loading</div>
 } @else {
-  @for (study of favouriteStudies; track study.id) {
+  @for (study of favsStudyStore.favouriteStudies(); track study.id) {
     <trials-study-card [study]="study" />
   } @empty {
     <p>No favourite studies</p>

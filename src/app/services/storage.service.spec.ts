@@ -1,12 +1,15 @@
 import { HitIds } from '../models/study';
 import { StorageService } from './storage.service';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 describe('StorageService', () => {
   let service: StorageService<HitIds>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideExperimentalZonelessChangeDetection()],
+    });
     service = TestBed.inject(StorageService);
   });
 

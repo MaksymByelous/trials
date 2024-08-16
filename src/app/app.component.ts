@@ -12,7 +12,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 export class AppComponent implements OnInit {
   activeLink!: 'studies' | 'favourites';
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activeLink = window.location.href.includes('favourites')
       ? 'favourites'
       : 'studies';

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FavouritesService } from './favourites.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('FavouritesService', () => {
@@ -11,7 +12,11 @@ describe('FavouritesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideExperimentalZonelessChangeDetection(),
+      ],
     });
     service = TestBed.inject(FavouritesService);
   });
@@ -21,17 +26,17 @@ describe('FavouritesService', () => {
   });
 
   it('should add and remove favourites', () => {
-    service['favoriteStudies'].set([]);
+    service['favouriteIds'].set([]);
     service.toggleFavourite('1');
-    expect(service['favoriteStudies']()).toEqual(['1']);
+    expect(service['favouriteIds']()).toEqual(['1']);
     service.toggleFavourite('1');
-    expect(service['favoriteStudies']()).toEqual([]);
+    expect(service['favouriteIds']()).toEqual([]);
   });
 
   it('should not add favourites if there is 10 item', () => {
     const mock10Items = Array.from({ length: 10 }, (_, i) => i.toString());
-    service['favoriteStudies'].set(mock10Items);
+    service['favouriteIds'].set(mock10Items);
     service.toggleFavourite('11');
-    expect(service['favoriteStudies']()).toEqual(mock10Items);
+    expect(service['favouriteIds']()).toEqual(mock10Items);
   });
 });

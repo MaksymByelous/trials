@@ -10,33 +10,46 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FavouritesService {
   private storage = inject(StorageService<HitIds>);
   private snackBar = inject(MatSnackBar);
-  private favoritesStorageKey = 'favorites';
-  private favoriteStudies = signal<HitIds>(
-    this.storage.getItem(this.favoritesStorageKey)
+  private favouritesStorageKey = 'favorites';
+  private favouriteIds = signal<HitIds>(
+    this.storage.getItem(this.favouritesStorageKey)
   );
-  favourites$ = toObservable(this.favoriteStudies);
+  private deletedItem = signal<HitId | null>(null);
+  deletedFavourite = this.deletedItem.asReadonly();
+
+  favourites = this.favouriteIds.asReadonly();
+  favourites$ = toObservable(this.favouriteIds);
 
   constructor() {
     effect(() =>
-      this.storage.setItem(this.favoritesStorageKey, this.favoriteStudies())
+      this.storage.setItem(this.favouritesStorageKey, this.favouriteIds())
     );
   }
 
   toggleFavourite(id: HitId): void {
-    const showIndex = this.favoriteStudies().indexOf(id);
-    const newFavorites = [...this.favoriteStudies()];
+    const showIndex = this.favouriteIds().indexOf(id);
 
     if (showIndex === -1) {
-      if (this.favoriteStudies().length === 10) {
+      if (this.favouriteIds().length === 10) {
         this.snackBar.open('You can only have 10 favourites', 'Close', {
           duration: 3000,
         });
         return;
       }
-      newFavorites.push(id);
+      this.deletedItem.set(null);
+      this.favouriteIds.update((favourites) => {
+        return [...favourites, id];
+      });
     } else {
-      newFavorites.splice(showIndex, 1);
+      this.deletedItem.set(id);
+      this.favouriteIds.update((favourites) => {
+        favourites.splice(showIndex, 1);
+        return [...favourites];
+      });
     }
-    this.favoriteStudies.set(newFavorites);
+  }
+
+  resetDeletedFavourite(): void {
+    this.deletedItem.set(null);
   }
 }

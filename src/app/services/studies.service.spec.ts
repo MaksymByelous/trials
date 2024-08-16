@@ -6,6 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StudiesService } from './studies.service';
 import { provideHttpClient } from '@angular/common/http';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const defaultQuery = {
   fields:
@@ -22,6 +23,7 @@ describe('StudiesService', () => {
         StudiesService,
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
     service = TestBed.inject(StudiesService);

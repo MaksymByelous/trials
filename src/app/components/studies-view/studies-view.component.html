@@ -1,8 +1,11 @@
-<h3>Latest studies</h3>
-@if (isLoading) {
+<h3>
+  Latest studies, new
+  {{ !studyStore.isLoading() ? studyStore.newStudiesCount() : '...' }}
+</h3>
+@if (studyStore.isLoading()) {
   <p>...searching</p>
 } @else {
-  @for (study of studies; track study.id) {
+  @for (study of studyStore.studies(); track study.id) {
     <trials-study-card [study]="study" />
   } @empty {
     <p>No studies found</p>

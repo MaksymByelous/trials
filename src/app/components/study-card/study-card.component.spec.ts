@@ -1,20 +1,21 @@
-import { Hit, HitIds } from '../../models/study';
-import { FavouritesService } from '../../services/favourites.service';
+import { Hit } from '../../models/study';
 import { StudyCardComponent } from './study-card.component';
-import { signal } from '@angular/core';
+import {
+  provideExperimentalZonelessChangeDetection,
+  signal,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('StudyCardComponent', () => {
   let component: StudyCardComponent;
   let fixture: ComponentFixture<StudyCardComponent>;
-  let favouritesService: FavouritesService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideExperimentalZonelessChangeDetection()],
       imports: [StudyCardComponent],
     }).compileComponents();
 
-    favouritesService = TestBed.inject(FavouritesService);
     fixture = TestBed.createComponent(StudyCardComponent);
     component = fixture.componentInstance;
 
@@ -43,18 +44,5 @@ describe('StudyCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get favourites ids and mark study as favourite', () => {
-    const mockFavourites = ['NCT06506786'] as HitIds;
-
-    favouritesService['favoriteStudies'].set(mockFavourites);
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    favouritesService.favourites$.subscribe((favs) => {
-      expect(favs.length).toBe(1);
-      expect(component.isFavourite()).toBe(true);
-    });
   });
 });

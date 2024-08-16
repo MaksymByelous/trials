@@ -29,7 +29,7 @@
         </div>
       }
       @if (
-        study().study.protocolSection.contactsLocationsModule?.locations?.length
+        study().study.protocolSection.contactsLocationsModule.locations?.length
       ) {
         <div class="content-item">
           Locations:
@@ -47,11 +47,12 @@
       }
     </div>
     <div class="card-actions">
-      <button
-        mat-raised-button
-        (click)="favouritesService.toggleFavourite(study().id)"
-      >
-        {{ isFavourite() ? 'Unfavourite' : 'Favourite' }}
+      <button mat-raised-button [toggleFavourite]="study().id">
+        {{
+          favouritesService.favourites().indexOf(this.study().id) !== -1
+            ? 'Unfavourite'
+            : 'Favourite'
+        }}
       </button>
     </div>
     <p>

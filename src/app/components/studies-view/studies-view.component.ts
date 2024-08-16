@@ -1,28 +1,28 @@
 import { Hit } from '../../models/study';
 import { StudiesService } from '../../services/studies.service';
+import { FavsStudiesStore } from '../../stores/favs-studies.store';
+import { StudiesStore } from '../../stores/studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { patchState } from '@ngrx/signals';
 
 @Component({
   selector: 'trials-studies-view',
   standalone: true,
   imports: [StudyCardComponent, AsyncPipe],
+  providers: [FavsStudiesStore],
   templateUrl: './studies-view.component.html',
   styleUrl: './studies-view.component.scss',
 })
 export class StudiesViewComponent implements OnInit, OnDestroy {
   private studyService = inject(StudiesService);
+  readonly studyStore = inject(StudiesStore);
 
-  studies: Hit[] = [];
-  isLoading = true;
   updateInterval!: ReturnType<typeof setInterval>;
 
-  ngOnInit() {
-    this.studyService.searchStudies().subscribe((trials) => {
-      this.studies = trials;
-      this.isLoading = false;
-    });
+  ngOnInit(): void {
+    this.studyStore.loadStudies({});
 
     this.updateInterval = setInterval(() => {
       this.studyService.searchStudies({ limit: '1' }).subscribe((trials) => {
@@ -32,8 +32,8 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
   }
 
   private checkStudiesToUpdate(newStudy: Hit): void {
-    if (!this.studies.length) {
-      this.studies.push(newStudy);
+    if (!this.studyStore.studies().length) {
+      patchState(this.studyStore, { studies: [newStudy] });
       return;
     }
 
@@ -50,12 +50,14 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
       newStudyUpdateDate > oldestStudyUpdateDate &&
       (newStudy.id === oldestStudy.id || this.getStudyIndex(newStudy.id) === -1)
     ) {
-      this.studies[this.getStudyIndex(oldestStudy.id)] = newStudy;
+      const newStudies = [...this.studyStore.studies()];
+      newStudies[this.getStudyIndex(oldestStudy.id)] = newStudy;
+      patchState(this.studyStore, { studies: newStudies });
     }
   }
 
   private getOldestStudy(): Hit {
-    const sortedStudies = [...this.studies].sort((a, b) => {
+    const sortedStudies = [...this.studyStore.studies()].sort((a, b) => {
       const dateA = new Date(
         a.study.protocolSection.statusModule.lastUpdatePostDateStruct.date
       ).getTime();
@@ -69,10 +71,10 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
   }
 
   private getStudyIndex(studyId: string): number {
-    return this.studies.findIndex((study) => study.id === studyId);
+    return this.studyStore.studies().findIndex((study) => study.id === studyId);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.updateInterval);
   }
 }
