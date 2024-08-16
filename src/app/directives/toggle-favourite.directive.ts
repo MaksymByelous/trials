@@ -3,6 +3,7 @@ import { Directive, HostListener, inject, Input } from '@angular/core';
 
 @Directive({
   selector: '[toggleFavourite]',
+  providers: [FavouritesService],
   standalone: true,
 })
 export class ToggleFavouriteDirective {
