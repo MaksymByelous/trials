@@ -1,6 +1,7 @@
+import { ToggleFavouriteDirective } from '../../directives/toggle-favourite.directive';
 import { Hit, Status } from '../../models/study';
 import { FavouritesService } from '../../services/favourites.service';
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MatCard,
@@ -25,20 +26,14 @@ import { MatDivider } from '@angular/material/divider';
     MatDivider,
     MatChipSet,
     MatChip,
+    ToggleFavouriteDirective,
   ],
   templateUrl: './study-card.component.html',
   styleUrl: './study-card.component.scss',
 })
-export class StudyCardComponent implements OnInit {
+export class StudyCardComponent {
   protected readonly Status = Status;
   protected favouritesService = inject(FavouritesService);
 
-  isFavourite = signal(false);
   study = input.required<Hit>();
-
-  ngOnInit(): void {
-    this.favouritesService.favourites$.subscribe((favs) => {
-      this.isFavourite.set(favs.indexOf(this.study().id) !== -1);
-    });
-  }
 }

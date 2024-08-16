@@ -17,6 +17,7 @@ export class FavouritesService {
   private deletedItem = signal<HitId | null>(null);
   deletedFavourite = this.deletedItem.asReadonly();
 
+  favourites = this.favouriteIds.asReadonly();
   favourites$ = toObservable(this.favouriteIds);
 
   constructor() {
