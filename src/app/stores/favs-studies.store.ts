@@ -1,49 +1,47 @@
-import { Hit } from '../models/study';
-import { StudiesService, StudyQuery } from '../services/studies.service';
-import { computed, inject } from '@angular/core';
+import { Hit, HitIds } from '../models/study';
+import { StudiesService } from '../services/studies.service';
+import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   patchState,
   signalStore,
-  withComputed,
+  withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap } from 'rxjs';
+import { of, pipe, switchMap, tap } from 'rxjs';
 
 type StudiesStore = {
   isLoading: boolean;
-  studies: Hit[];
+  favouriteStudies: Hit[];
 };
 
 const initialState: StudiesStore = {
   isLoading: false,
-  studies: [],
+  favouriteStudies: [],
 };
 
-export const StudiesStore = signalStore(
-  { providedIn: 'root' },
+export const FavsStudiesStore = signalStore(
   withState(initialState),
-  withComputed(({ studies }) => ({
-    newStudiesCount: computed(() =>
-      studies().reduce((acc, study) => (study.isNew ? acc + 1 : acc), 0)
-    ),
-  })),
   withMethods(
     (
       store,
       studiesService = inject(StudiesService),
       snackBar = inject(MatSnackBar)
     ) => ({
-      loadStudies: rxMethod<StudyQuery>(
+      loadFavouriteStudies: rxMethod<HitIds>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
-          switchMap((query) => {
-            return studiesService.searchStudies(query).pipe(
+          switchMap((ids) => {
+            if (!ids.length) {
+              patchState(store, { favouriteStudies: [], isLoading: false });
+              return of();
+            }
+            return studiesService.searchStudies({ id: ids.toString() }).pipe(
               tap({
                 next: (trials) => {
-                  patchState(store, { studies: trials, isLoading: false });
+                  patchState(store, { favouriteStudies: trials });
                 },
                 error: () => {
                   snackBar.open('Sorry, we could not load data', 'Close', {
@@ -57,5 +55,13 @@ export const StudiesStore = signalStore(
         )
       ),
     })
-  )
+  ),
+  withHooks({
+    onInit: () => {
+      console.log('onInit favs store');
+    },
+    onDestroy: () => {
+      console.log('onDestroy favs store');
+    },
+  })
 );
