@@ -1,35 +1,47 @@
 import { FavouritesService } from '../services/favourites.service';
+import { ToggleFavouriteTestComponent } from './toggle-favourite-test.component';
 import { ToggleFavouriteDirective } from './toggle-favourite.directive';
-import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  DebugElement,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 describe('ToggleFavouriteDirective', () => {
-  let component: ToggleFavouriteDirective;
-  let fixture: ComponentFixture<ToggleFavouriteDirective>;
+  let component: ToggleFavouriteTestComponent;
+  let fixture: ComponentFixture<ToggleFavouriteTestComponent>;
   let favouritesService: FavouritesService;
+  let elements: DebugElement[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideExperimentalZonelessChangeDetection()],
-      imports: [ToggleFavouriteDirective],
+      imports: [ToggleFavouriteDirective, ToggleFavouriteTestComponent],
     }).compileComponents();
 
     favouritesService = TestBed.inject(FavouritesService);
-    fixture = TestBed.createComponent(ToggleFavouriteDirective);
+    fixture = TestBed.createComponent(ToggleFavouriteTestComponent);
 
     component = fixture.componentInstance;
     component.favouriteId = 'NCT06506786';
+
+    elements = fixture.debugElement.queryAll(
+      By.directive(ToggleFavouriteDirective)
+    );
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create single element with directive', () => {
     expect(component).toBeTruthy();
+    expect(elements.length).toBe(1);
   });
 
-  xit('should make id favourite', () => {
-    component.toggleFavourite();
-    expect(
-      favouritesService.toggleFavourite(component.favouriteId)
-    ).toHaveBeenCalled();
+  it('should make id favourite', () => {
+    spyOn(favouritesService, 'toggleFavourite');
+    elements[0].nativeElement.click();
+    expect(favouritesService.toggleFavourite).toHaveBeenCalledWith(
+      component.favouriteId
+    );
   });
 });

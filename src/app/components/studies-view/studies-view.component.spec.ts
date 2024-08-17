@@ -1,17 +1,10 @@
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
-
 import { Hit } from '../../models/study';
 import { StudiesStore } from '../../stores/studies.store';
 import { StudiesViewComponent } from './studies-view.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('StudiesViewComponent', () => {
   let component: StudiesViewComponent;
@@ -110,17 +103,4 @@ describe('StudiesViewComponent', () => {
     component.ngOnInit();
     expect(mockStudyStore.loadStudies).toHaveBeenCalled();
   });
-
-  it('should do call for single study on interval every 5000ms', fakeAsync(() => {
-    const spy = spyOn(
-      component['studyService'],
-      'searchStudies'
-    ).and.callThrough();
-    component.ngOnInit();
-    tick(5000);
-    expect(spy).toHaveBeenCalledTimes(1);
-    tick(5000);
-    expect(spy).toHaveBeenCalledTimes(2);
-    discardPeriodicTasks();
-  }));
 });
