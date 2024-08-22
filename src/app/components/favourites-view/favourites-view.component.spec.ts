@@ -62,7 +62,6 @@ describe('FavouritesViewComponent', () => {
     spyOn(studyService, 'searchStudies').and.returnValue(of(mockStudies));
     favouritesService['favouriteIds'].set(mockFavourites);
 
-    component.ngOnInit();
     fixture.detectChanges();
     favouritesService.favourites$.subscribe((favs) => {
       expect(favs.length).toBe(1);
