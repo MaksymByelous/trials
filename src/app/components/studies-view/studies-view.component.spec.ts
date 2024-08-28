@@ -63,6 +63,7 @@ describe('StudiesViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(mockStudyStore.loadStudies).toHaveBeenCalled();
   });
 
   it('getStudyIndex should return index by id', () => {
@@ -97,10 +98,5 @@ describe('StudiesViewComponent', () => {
     } as Hit;
     component['checkStudiesToUpdate'](newStudy);
     expect(mockStudyStore.studies()[0]).toEqual(newStudy);
-  });
-
-  it('should do call for studies on init', () => {
-    component.ngOnInit();
-    expect(mockStudyStore.loadStudies).toHaveBeenCalled();
   });
 });

@@ -22,10 +22,6 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('active link should be on Studies', () => {
-    component.ngOnInit();
     expect(component.activeLink).toBe('studies');
   });
 });
