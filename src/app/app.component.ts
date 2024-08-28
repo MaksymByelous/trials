@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTabLink, MatTabNav, MatTabNavPanel } from '@angular/material/tabs';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
@@ -9,10 +9,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  activeLink!: 'studies' | 'favourites';
+export class AppComponent {
+  activeLink: 'studies' | 'favourites';
 
-  ngOnInit(): void {
+  constructor() {
     this.activeLink = window.location.href.includes('favourites')
       ? 'favourites'
       : 'studies';

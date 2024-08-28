@@ -4,7 +4,7 @@ import { FavsStudiesStore } from '../../stores/favs-studies.store';
 import { StudiesStore } from '../../stores/studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { patchState } from '@ngrx/signals';
 
 @Component({
@@ -15,13 +15,14 @@ import { patchState } from '@ngrx/signals';
   templateUrl: './studies-view.component.html',
   styleUrl: './studies-view.component.scss',
 })
-export class StudiesViewComponent implements OnInit, OnDestroy {
+export class StudiesViewComponent {
   private studyService = inject(StudiesService);
+  private destroyRef = inject(DestroyRef);
   readonly studyStore = inject(StudiesStore);
 
   updateInterval!: ReturnType<typeof setInterval>;
 
-  ngOnInit(): void {
+  constructor() {
     this.studyStore.loadStudies({});
 
     this.updateInterval = setInterval(() => {
@@ -29,6 +30,10 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
         this.checkStudiesToUpdate(trials[0]);
       });
     }, 5000);
+
+    this.destroyRef.onDestroy(() => {
+      clearInterval(this.updateInterval);
+    });
   }
 
   private checkStudiesToUpdate(newStudy: Hit): void {
@@ -72,9 +77,5 @@ export class StudiesViewComponent implements OnInit, OnDestroy {
 
   private getStudyIndex(studyId: string): number {
     return this.studyStore.studies().findIndex((study) => study.id === studyId);
-  }
-
-  ngOnDestroy(): void {
-    clearInterval(this.updateInterval);
   }
 }

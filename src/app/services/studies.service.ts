@@ -28,8 +28,8 @@ export class StudiesService {
     return this.httpClient
       .get<SearchResult>(this.searchApiUrl, { params })
       .pipe(
-        map((searchResponse: SearchResult) => {
-          return searchResponse.hits;
+        map(({ hits }) => {
+          return hits;
         })
       );
   }

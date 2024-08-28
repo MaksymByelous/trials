@@ -3,7 +3,7 @@ import { FavsStudiesStore } from '../../stores/favs-studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { Component, effect, inject, untracked } from '@angular/core';
 import { patchState } from '@ngrx/signals';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'trials-favourites-view',
@@ -17,7 +17,7 @@ export class FavouritesViewComponent {
   protected favouritesService = inject(FavouritesService);
   readonly favsStudyStore = inject(FavsStudiesStore);
 
-  favIdsSub!: Subscription;
+  // favIdsSub!: Subscription;
 
   constructor() {
     this.favouritesService.resetDeletedFavourite();
