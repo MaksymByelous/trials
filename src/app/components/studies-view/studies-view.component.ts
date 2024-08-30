@@ -20,7 +20,7 @@ export class StudiesViewComponent {
   private destroyRef = inject(DestroyRef);
   readonly studyStore = inject(StudiesStore);
 
-  updateInterval!: ReturnType<typeof setInterval>;
+  updateInterval: ReturnType<typeof setInterval>;
 
   constructor() {
     this.studyStore.loadStudies({});
