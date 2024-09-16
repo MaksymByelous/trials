@@ -1,6 +1,5 @@
 import { Hit } from '../../models/study';
 import { StudiesService } from '../../services/studies.service';
-import { FavsStudiesStore } from '../../stores/favs-studies.store';
 import { StudiesStore } from '../../stores/studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { AsyncPipe } from '@angular/common';
@@ -11,7 +10,6 @@ import { patchState } from '@ngrx/signals';
   selector: 'trials-studies-view',
   standalone: true,
   imports: [StudyCardComponent, AsyncPipe],
-  providers: [FavsStudiesStore],
   templateUrl: './studies-view.component.html',
   styleUrl: './studies-view.component.scss',
 })
