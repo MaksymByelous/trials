@@ -2,7 +2,6 @@ import { FavouritesService } from '../../services/favourites.service';
 import { FavsStudiesStore } from '../../stores/favs-studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
 import { Component, effect, inject, untracked } from '@angular/core';
-import { patchState } from '@ngrx/signals';
 
 @Component({
   selector: 'trials-favourites-view',
@@ -40,10 +39,10 @@ export class FavouritesViewComponent {
             .filter(
               (study) => study.id !== this.favouritesService.deletedFavourite()
             );
-          patchState(this.favsStudyStore, { favouriteStudies: newStudies });
+          this.favsStudyStore.setFavouriteStudies(newStudies);
         });
       } else {
-        patchState(this.favsStudyStore, { favouriteStudies: [] });
+        this.favsStudyStore.setFavouriteStudies([]);
       }
     }
   }

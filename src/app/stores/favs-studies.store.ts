@@ -30,6 +30,9 @@ export const FavsStudiesStore = signalStore(
       studiesService = inject(StudiesService),
       snackBar = inject(MatSnackBar)
     ) => ({
+      setFavouriteStudies(favouriteStudies: Hit[]) {
+        patchState(store, { favouriteStudies });
+      },
       loadFavouriteStudies: rxMethod<HitIds>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),

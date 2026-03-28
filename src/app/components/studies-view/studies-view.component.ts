@@ -2,14 +2,12 @@ import { Hit } from '../../models/study';
 import { StudiesService } from '../../services/studies.service';
 import { StudiesStore } from '../../stores/studies.store';
 import { StudyCardComponent } from '../study-card/study-card.component';
-import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
-import { patchState } from '@ngrx/signals';
 
 @Component({
   selector: 'trials-studies-view',
   standalone: true,
-  imports: [StudyCardComponent, AsyncPipe],
+  imports: [StudyCardComponent],
   templateUrl: './studies-view.component.html',
   styleUrl: './studies-view.component.scss',
 })
@@ -36,7 +34,7 @@ export class StudiesViewComponent {
 
   private checkStudiesToUpdate(newStudy: Hit): void {
     if (!this.studyStore.studies().length) {
-      patchState(this.studyStore, { studies: [newStudy] });
+      this.studyStore.setStudies([newStudy]);
       return;
     }
 
@@ -55,7 +53,7 @@ export class StudiesViewComponent {
     ) {
       const newStudies = [...this.studyStore.studies()];
       newStudies[this.getStudyIndex(oldestStudy.id)] = newStudy;
-      patchState(this.studyStore, { studies: newStudies });
+      this.studyStore.setStudies(newStudies);
     }
   }
 

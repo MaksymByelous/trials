@@ -36,6 +36,9 @@ export const StudiesStore = signalStore(
       studiesService = inject(StudiesService),
       snackBar = inject(MatSnackBar)
     ) => ({
+      setStudies(studies: Hit[]) {
+        patchState(store, { studies });
+      },
       loadStudies: rxMethod<StudyQuery>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
